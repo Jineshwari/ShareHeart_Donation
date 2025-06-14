@@ -1,0 +1,9 @@
+# Virtual Environment
+venv/
+
+# SQLite database
+db.sqlite3
+# Ignore Django settings file
+donation/settings.py
+#env file
+.env

@@ -1,0 +1,371 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGO Donation Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: #f0f8ff;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        nav {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo img {
+            height: 50px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #52a1d3;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 32px;
+            margin: 40px 0;
+            color: #52a1d3;
+        }
+
+        .donation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .donation-item {
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .donation-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .donation-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .donation-info {
+            padding: 20px;
+        }
+
+        .donation-info h3 {
+            margin-bottom: 10px;
+            color: #52a1d3;
+        }
+
+        .donation-quantity {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .quantity-input {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity-input button {
+            background-color: #52a1d3;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .quantity-input button:hover {
+            background-color: #3a87b8;
+        }
+
+        .quantity-input input {
+            width: 50px;
+            text-align: center;
+            font-size: 18px;
+            border: 1px solid #ddd;
+            padding: 5px;
+            margin: 0 5px;
+        }
+
+        .form-section {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .submit-btn {
+            background-color: #52a1d3;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #3a87b8;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+            }
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            background: linear-gradient(90deg, #ea8d8d, #da9e54, #5dc0e4, #296dd9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container nav-content">
+            <div class="logo">
+                <img src="{% static 'logoheart.svg' %}" alt="Logo">
+                SHARE HEART
+            </div>
+            <div class="nav-links">
+                <a href="tel:+919766030221"><i class="fas fa-phone"></i></a>
+                <a href="https://wa.me/9766030221"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </nav>
+  
+    <div class="container">
+        <h1 class="section-title">Select Your Donations</h1>
+        <form method="POST" action="{% url 'donate' %}">
+            {% csrf_token %}
+            <div class="donation-grid">
+                <div class="donation-item">
+                    <img src="{% static 'books.svg' %}" alt="Books">
+                    <div class="donation-info">
+                        <h3>Books</h3>
+                        <p>Donate books to support education</p>
+                        <div class="donation-quantity">
+                            <span>Quantity:</span>
+                            <div class="quantity-input">
+                                <button type="button" onclick="decrease('books')">-</button>
+                                <input type="number" name="books" id="books" value="0" min="0" readonly>
+                                <button type="button" onclick="increase('books')">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="donation-item">
+                    <img src="{% static 'shoes.svg' %}" alt="Shoes">
+                    <div class="donation-info">
+                        <h3>Shoes</h3>
+                        <p>Donate To Protect little legs</p>
+                        <div class="donation-quantity">
+                            <span>Quantity:</span>
+                            <div class="quantity-input">
+                                <button type="button" onclick="decrease('shoes')">-</button>
+                                <input type="number" name="shoes" id="shoes" value="0" min="0" readonly>
+                                <button type="button" onclick="increase('shoes')">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="donation-item">
+                    <img src="{% static 'stationary.svg' %}" alt="Stationary">
+                    <div class="donation-info">
+                        <h3>Stationary</h3>
+                        <p>Donate Stationary to support education</p>
+                        <div class="donation-quantity">
+                            <span>Quantity:</span>
+                            <div class="quantity-input">
+                                <button type="button" onclick="decrease('stationary')">-</button>
+                                <input type="number" name="stationary" id="stationary" value="0" min="0" readonly>
+                                <button type="button" onclick="increase('stationary')">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="donation-item">
+                    <img src="{% static 'clothes.svg' %}" alt="Clothes">
+                    <div class="donation-info">
+                        <h3>Clothes</h3>
+                        <p>Donate clothes to those in need</p>
+                        <div class="donation-quantity">
+                            <span>Quantity:</span>
+                            <div class="quantity-input">
+                                <button type="button" onclick="decrease('clothes')">-</button>
+                                <input type="number" name="clothes" id="clothes" value="0" min="0" readonly>
+                                <button type="button" onclick="increase('clothes')">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="donation-item">
+                    <img src="{% static 'food.svg' %}" alt="Food">
+                    <div class="donation-info">
+                        <h3>Food</h3>
+                        <p>Donate food to fight hunger</p>
+                        <div class="donation-quantity">
+                            <span>Quantity:</span>
+                            <div class="quantity-input">
+                                <button type="button" onclick="decrease('food')">-</button>
+                                <input type="number" name="food" id="food" value="0" min="0" readonly>
+                                <button type="button" onclick="increase('food')">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="donation-item">
+                    <img src="{% static 'teddy.svg' %}" alt="Toys">
+                    <div class="donation-info">
+                        <h3>Toys</h3>
+                        <p>Donate toys to bring joy to children</p>
+                        <div class="donation-quantity">
+                            <span>Quantity:</span>
+                            <div class="quantity-input">
+                                <button type="button" onclick="decrease('toys')">-</button>
+                                <input type="number" name="toys" id="toys" value="0" min="0" readonly>
+                                <button type="button" onclick="increase('toys')">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2 class="section-title">Donor Information</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="donor">User ID</label>
+                    <input type="text" id="donor" name="donor" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <textarea id="address" name="address" rows="3"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pin">PIN Code</label>
+                        <input type="text" id="pin" name="pin" pattern="[0-9]{6}" title="PIN code should be 6 digits long">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="pick_up">Preferred Pickup Date</label>
+                    <input type="date" id="pick_up" name="pick_up">
+                </div>
+                <button type="submit" class="submit-btn">Submit Donation</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function increase(id) {
+            var input = document.getElementById(id);
+            input.value = parseInt(input.value) + 1;
+        }
+
+        function decrease(id) {
+            var input = document.getElementById(id);
+            if (parseInt(input.value) > 0) {
+                input.value = parseInt(input.value) - 1;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,509 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DonateKart</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(246, 247, 248, 0.827);
+            z-index: -1;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            background: linear-gradient(90deg, #ea8d8d, #da9e54, #5dc0e4, #296dd9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+
+        .logo img {
+            width: 40px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .auth-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .auth-links a {
+            text-decoration: none;
+            color: #333;
+            padding: 8px 16px;
+            border-radius: 5px;
+        }
+
+        .auth-links a:last-child {
+            background: linear-gradient(135deg, #0066ff, #00ccff);
+            color: rgb(255, 255, 255);
+        }
+
+        .hero {
+            display: flex;
+            align-items: center;
+            padding: 50px;
+            min-height: calc(100vh - 70px);
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            color: #333;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            margin-bottom: 30px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .donate-now {
+            display: inline-block;
+            background: linear-gradient(135deg, #0066ff, #00ccff);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 18px;
+            transition: transform 0.3s;
+        }
+
+        .welcome {
+            padding: 60px 20px;
+            text-align: center;
+            background: #fff;
+        }
+
+        .welcome h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .welcome h2 {
+            margin-bottom: 40px;
+            color: #666;
+        }
+
+        .boxes {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .box {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            width: 300px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .scroller {
+            padding: 50px 20px;
+            text-align: center;
+            background: #f8f9fa;
+        }
+
+        .scroller h1 {
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .scroller__inner {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .scroller__inner img {
+            height: 50px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .scroller__inner img:hover {
+            opacity: 1;
+        }
+
+        .counter {
+            padding: 60px 20px;
+            text-align: center;
+            background: #fff;
+        }
+
+        .counter h1 {
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .counter-boxes {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .con2 {
+            background-color: #4a90e2;
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            width: 250px;
+            transition: transform 0.3s;
+        }
+
+        .con2:hover {
+            transform: scale(1.05);
+        }
+
+        .Testimonials {
+            padding: 60px 20px;
+            text-align: center;
+            background: #f8f9fa;
+        }
+
+        .Testimonials h1 {
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .row {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .login {
+            margin-right: 5%;
+            margin-top: 9px;
+            display: flex;
+            gap: 20px;
+            float: right;
+          }
+
+        .con1 {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            max-width: 500px;
+        }
+
+        footer {
+            background-color: #4a90e2;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        footer p {
+            margin-bottom: 20px;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        
+
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                padding: 15px;
+            }
+
+            .nav-links, .auth-links {
+                margin-top: 15px;
+            }
+
+            .hero {
+                padding: 30px;
+                text-align: center;
+            }
+
+            .boxes, .counter-boxes, .row {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .box, .con2, .con1 {
+                width: 100%;
+                max-width: 400px;
+            }
+        }
+        .circle-container {
+                position: absolute;
+                right: -100px;
+                top: 50%;
+                transform: translateY(-40%);
+                width: 800px;
+                height: 800px;
+                display: block;
+        }
+
+        .circle-outer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 20px solid #00ccff;
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+        
+        .circle-inner {
+            position: absolute;
+            width: calc(100% - 40px);
+            height: calc(100% - 40px);
+            margin: 20px;
+            border: 20px solid #00ccff;
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+        
+        .circle-image {
+            position: absolute;
+            width: calc(100% - 80px);
+            height: calc(100% - 80px);
+            margin: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .circle-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        @media (max-width: 1200px) {
+            .circle-container {
+                display: none;
+            }
+        }
+        
+        
+    </style>
+</head>
+<body onload="myloader()">
+    <img src="{% static 'kids1.jpg' %}" alt="Background" class="background-image">
+    <div class="overlay"></div>
+
+    <nav>
+        <div class="logo">
+            <img src="{% static 'logoheart.svg' %}" alt="Logo">
+            SHARE HEART
+        </div>
+        <ul class="nav-links">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'rewards' %}">Rewards</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+        </ul>
+        <div class="login">
+          <a href="{% url 'account' %}" class="user" title="Go to Account Page">
+            <span class="account-emoji">👤</span> <!-- Account emoji -->
+          </a>
+        </div>
+        
+    </nav>
+
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Uniting NGOs, Empowering Change.</h1>
+            <p>Welcome to our platform, where we unite NGOs worldwide under one digital roof, empowering them to collaborate, share resources, and amplify their impact.</p>
+            <a href="{% url 'donate' %}" class="donate-now">Donate Now</a>
+        </div>
+    </div>
+
+    <div class="circle-container">
+        <div class="circle-outer"></div>
+        <div class="circle-inner"></div>
+        <div class="circle-image">
+            <img src="{% static 'kids2.jpg' %}" alt="Children">
+        </div>
+    </div>
+
+    <div class="welcome">
+        <h1>WELCOME TO DOORSTEP DONATION</h1>
+        <h2>Feel the Power of Giving!</h2>
+        <div class="boxes">
+            <div class="box">
+                <img src="{% static 'connect.svg' %}" alt="" style="height: 50px; margin-bottom: 20px;">
+                <h2>Collaboration</h2>
+                <p>Empowering NGOs to unite and amplify their efforts through collaborative partnerships.</p>
+            </div>
+            <div class="box">
+                <img src="{% static '20.svg' %}" alt="" style="height: 50px; margin-bottom: 20px;">
+                <h2>Impact</h2>
+                <p>Driving meaningful change by showcasing the tangible impact of NGO initiatives on communities.</p>
+            </div>
+            <div class="box">
+                <img src="{% static '21.svg' %}" alt="" style="height: 50px; margin-bottom: 20px;">
+                <h2>Community</h2>
+                <p>Uniting NGOs for social progress and humanitarian causes.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="scroller">
+        <h1>OUR CORPORATE CLIENTS</h1>
+        <div class="scroller__inner">
+            <img src="{% static 'tata.svg' %}" alt="Tata">
+            <img src="{% static 'bmw.svg' %}" alt="BMW">
+            <img src="{% static 'apple.svg' %}" alt="Apple">
+            <img src="{% static 'nike.svg' %}" alt="Nike">
+            <img src="{% static 'twitter.svg' %}" alt="Twitter">
+            <img src="{% static 'google.svg' %}" alt="Google">
+        </div>
+    </div>
+
+    <div class="counter">
+        <h1>OUR PARTNERS</h1>
+        <div class="counter-boxes">
+            <div class="con2">
+                <i class="fa-solid fa-users"></i>
+                <span class="num" data-val="100">000</span>
+                <span class="text">NO OF VOLUNTEERS</span>
+            </div>
+            <div class="con2">
+                <i class="fa-solid fa-handshake"></i>
+                <span class="num" data-val="340">000</span>
+                <span class="text">DONORS</span>
+            </div>
+            <div class="con2">
+                <i class="fa-solid fa-house-chimney-crack"></i>
+                <span class="num" data-val="225">000</span>
+                <span class="text">NGOs</span>
+            </div>
+            <div class="con2">
+                <i class="fa-solid fa-hand-holding-dollar"></i>
+                <span class="num" data-val="280">000</span>
+                <span class="text">DONATIONS</span>
+            </div>
+        </div>
+    </div>
+
+
+    <footer>
+        <p>&copy; 2023 NGO Website. All rights reserved.</p>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init({ offset: 120, duration: 400 });
+
+        function myloader() {
+            var preloader = document.getElementById("loader");
+            if (preloader) {
+                preloader.style.display = "none";
+            }
+        }
+
+        function startCountingWhenVisible() {
+            let valueDisplays = document.querySelectorAll(".num");
+            let interval = 4000;
+            let options = { root: null, rootMargin: "0px", threshold: 0.5 };
+            
+            let observerCallback = (entries, observer) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        let valueDisplay = entry.target;
+                        let startValue = 0;
+                        let endValue = parseInt(valueDisplay.getAttribute("data-val"));
+                        let duration = Math.floor(interval / endValue);
+                        let counter = setInterval(function () {
+                            startValue += 1;
+                            valueDisplay.textContent = startValue;
+                            if (startValue == endValue) {
+                                clearInterval(counter);
+                            }
+                        }, duration);
+                        observer.unobserve(valueDisplay);
+                    }
+                });
+            };
+            
+            let observer = new IntersectionObserver(observerCallback, options);
+            valueDisplays.forEach((valueDisplay) => {
+                observer.observe(valueDisplay);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", startCountingWhenVisible);
+    </script>
+</body>
+</html>

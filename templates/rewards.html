@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGO Website</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e9f7fc; /* Light blue background */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        /* Navbar styles */
+        nav {
+            width: 100%;
+            background-color: #1d65a6; /* Dark blue */
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1d65a6; /* Dark blue */
+        }
+        h2 {
+            text-align: center;
+            color: #2196F3;
+        }
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #2196F3;
+            color: white;
+            font-weight: bold;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .redeem-button {
+            background-color: #1e88e5; /* Blue */
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+        .redeem-button:hover {
+            background-color: #1976d2; /* Darker blue */
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+        .form-container {
+            width: 50%;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button[type="submit"] {
+            background-color: #1e88e5;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+        }
+        button[type="submit"]:hover {
+            background-color: #1976d2;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <a href="/donate">Donate</a>
+    </nav>
+
+    <h1>Check Redeemable Points</h1>
+    <div class="form-container">
+        <h2>Enter User ID to Check Points</h2>
+        <form method="post">
+            {% csrf_token %}
+            <label for="user_id">User ID:</label>
+            <input type="text" name="user_id" required>
+            <button type="submit">Check Points</button>
+        </form>
+
+        {% if user_data %}
+            <h3>Redeemable Points for {{ user_data.1 }} {{ user_data.2 }}</h3>
+            <p>User ID: {{ user_data.0 }}</p>
+            <p>Redeemable Points: {{ user_data.3 }}</p>
+        {% else %}
+            <p>No data available or user not found.</p>
+        {% endif %}
+    </div>
+
+    <h2>Available Vouchers</h2>
+    {% if message %}
+        <div class="message">{{ message }}</div>
+    {% endif %}
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Voucher Name</th>
+                <th>Discount</th>
+                <th>Terms & Conditions</th>
+                <th>Expiry Date</th>
+                <th>Points Needed</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for voucher in vouchers %}
+            <tr>
+                <td>{{ voucher.voucher_name }}</td>
+                <td>{{ voucher.discount }}%</td>
+                <td>{{ voucher.T_and_C }}</td>
+                <td>{{ voucher.expiry_date }}</td>
+                <td>{{ voucher.points_needed }}</td>
+                <td>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="voucher_id" value="{{ voucher.voucher_id }}">
+                        <button type="submit" name="redeem" class="redeem-button">Redeem</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6">No vouchers available.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
