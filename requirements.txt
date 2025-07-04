@@ -1,6 +1,16 @@
 asgiref==3.8.1
+cffi==1.17.1
 cryptography==43.0.1
+dj-database-url==3.0.1
 Django==5.1.1
-mysql-connector-python==8.3.0
+gunicorn==23.0.0
+mysqlclient==2.2.4
+packaging==25.0
+psycopg2-binary==2.9.10
+pycparser==2.22
+PyMuPDF==1.24.11
+PyMySQL==1.1.1
+python-decouple==3.8
 sqlparse==0.5.1
 tzdata==2024.2
+whitenoise==6.9.0
